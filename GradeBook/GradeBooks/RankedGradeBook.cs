@@ -20,7 +20,13 @@ namespace GradeBook.GradeBooks
                 throw new InvalidOperationException();
             }
 
-            var dropCount = Students.Count / 20 * 100;
+            var threshold = (int)Math.Ceiling(Students.Count * 0.2);
+            var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
+
+
+
+
+
             List<double> averageGradesList = new List<double>();
             foreach (var student in Students)
             {
@@ -29,13 +35,13 @@ namespace GradeBook.GradeBooks
 
             averageGradesList.Sort();
 
-            if (averageGrade <= dropCount)
+            if (grades[threshold - 1] <= averageGrade)
                 return 'A';
-            else if (averageGrade <= dropCount *2)
+            else if (grades[(threshold*2) - 1] <= averageGrade)
                 return 'B';
-            else if (averageGrade <= dropCount *3)
+            else if (grades[(threshold * 3) - 1] <= averageGrade)
                 return 'C';
-            else if (averageGrade <= dropCount *4)
+            else if (grades[(threshold * 4) - 1] <= averageGrade)
                 return 'D';
             else
                 return 'F';
